@@ -11,11 +11,6 @@ import {
   Camera,
   BarChart3,
   Check,
-  Layers,
-  Sun,
-  Zap,
-  Command,
-  Aperture,
 } from "lucide-react";
 import "./style.css";
 
@@ -45,7 +40,7 @@ const categoryRows = [
 
 const courses = [
   { title: "Learn Figma from Basic", image: "course-figma.png", time: "4.5" },
-  { title: "Build Digital Asset", image: "course-data.png", time: "4.5" },
+  { title: "Build Digital Asset", image: "course-digital.png", time: "4.5" },
   { title: "the Power of Big Data", image: "course-data.png", time: "4.5" },
   {
     title: "Balancing Productivity an...",
@@ -73,8 +68,6 @@ const learningPaths = [
   [Camera, "Photography"],
 ];
 
-const partnerIcons = [Layers, Sun, Zap, Command, Aperture];
-
 const testimonials = [
   {
     name: "Sarah M.",
@@ -99,176 +92,14 @@ const footerColumns = [
   ["Become a Creator", "Affiliate Program", "Contact", "Help", "About"],
 ];
 
-/* ---------- 3D SHAPES (SVG) ----------
-   Positions are in Figma (1440px) coordinates and stay anchored
-   to the centre of the section, so they line up at any width. */
-
-const PALETTE = {
-  lime: { base: "#c9ff00", light: "#f0ff85", dark: "#87bd00" },
-  white: { base: "#f5f6fb", light: "#ffffff", dark: "#c3cbe3" },
-};
-
-const at = (x, y) => ({
-  left: `calc(50% - 720px + ${x}px)`,
-  top: `${y}px`,
-});
-
-function Spring({ tone = "lime", w, h, stroke, rotate = 0, x, y }) {
-  const c = PALETTE[tone];
-  const s = stroke / 2 + 2;
-  const d = `M ${s} ${h * 0.14} L ${w - s} ${h * 0.34} L ${s} ${h * 0.57} L ${
-    w - s
-  } ${h * 0.82}`;
-  const common = {
-    d,
-    fill: "none",
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-  };
-  return (
-    <svg
-      className="shape"
-      width={w}
-      height={h}
-      viewBox={`0 0 ${w} ${h}`}
-      style={at(x, y)}
-    >
-      <g transform={`rotate(${rotate} ${w / 2} ${h / 2})`}>
-        <path {...common} stroke={c.dark} strokeWidth={stroke} transform="translate(0 6)" />
-        <path {...common} stroke={c.base} strokeWidth={stroke} />
-        <path
-          {...common}
-          stroke={c.light}
-          strokeWidth={stroke * 0.32}
-          opacity="0.85"
-          transform={`translate(0 ${-stroke * 0.2})`}
-        />
-      </g>
-    </svg>
-  );
-}
-
-function Ring({ tone = "white", w, h, rotate = -28, x, y }) {
-  const c = PALETTE[tone];
-  const rx = w * 0.32;
-  const ry = h * 0.27;
-  const sw = w * 0.27;
-  const e = { cx: w / 2, cy: h / 2, rx, ry, fill: "none" };
-  return (
-    <svg
-      className="shape"
-      width={w}
-      height={h}
-      viewBox={`0 0 ${w} ${h}`}
-      style={at(x, y)}
-    >
-      <g transform={`rotate(${rotate} ${w / 2} ${h / 2})`}>
-        <ellipse {...e} stroke={c.dark} strokeWidth={sw} transform="translate(0 7)" />
-        <ellipse {...e} stroke={c.base} strokeWidth={sw} />
-        <ellipse
-          {...e}
-          stroke={c.light}
-          strokeWidth={sw * 0.3}
-          opacity="0.9"
-          transform={`translate(0 ${-sw * 0.2})`}
-        />
-      </g>
-    </svg>
-  );
-}
-
-function Cone({ tone = "white", w, h, rotate = 0, x, y }) {
-  const c = PALETTE[tone];
-  return (
-    <svg
-      className="shape"
-      width={w}
-      height={h}
-      viewBox={`0 0 ${w} ${h}`}
-      style={at(x, y)}
-    >
-      <g transform={`rotate(${rotate} ${w / 2} ${h / 2})`}>
-        <polygon
-          points={`${w * 0.62},2 ${w - 3},${h * 0.9} 3,${h * 0.7}`}
-          fill={c.base}
-          stroke={c.base}
-          strokeWidth="6"
-          strokeLinejoin="round"
-        />
-        <polygon
-          points={`${w * 0.62},2 ${w - 3},${h * 0.9} ${w * 0.5},${h * 0.8}`}
-          fill={c.dark}
-          opacity="0.55"
-        />
-        <polygon
-          points={`${w * 0.62},2 ${w * 0.5},${h * 0.8} 3,${h * 0.7}`}
-          fill={c.light}
-        />
-      </g>
-    </svg>
-  );
-}
-
-function Cylinder({ tone = "lime", w, h, rotate = -25, x, y }) {
-  const c = PALETTE[tone];
-  return (
-    <svg
-      className="shape"
-      width={w}
-      height={h}
-      viewBox={`0 0 ${w} ${h}`}
-      style={at(x, y)}
-    >
-      <defs>
-        <linearGradient id={`cyl-${tone}`} x1="0" x2="1" y1="0" y2="1">
-          <stop offset="0" stopColor={c.light} />
-          <stop offset="0.45" stopColor={c.base} />
-          <stop offset="1" stopColor={c.dark} />
-        </linearGradient>
-      </defs>
-      <g transform={`rotate(${rotate} ${w / 2} ${h / 2})`}>
-        <rect
-          x={w * 0.1}
-          y={h * 0.12}
-          width={w * 0.8}
-          height={h * 0.78}
-          rx={w * 0.32}
-          fill={`url(#cyl-${tone})`}
-        />
-        <ellipse
-          cx={w / 2}
-          cy={h * 0.17}
-          rx={w * 0.4}
-          ry={h * 0.085}
-          fill={c.light}
-          opacity="0.85"
-        />
-      </g>
-    </svg>
-  );
-}
-
 /* ---------- SMALL PARTS ---------- */
 
 function Logo() {
   return (
-    <a href="#" className="logo">
-      <span className="logo-symbol">
-        <span />
-      </span>
-      <strong>ByteSpace</strong>
+    <a href="/" className="logo" aria-label="ByteSpace home">
+      <img className="logo-light" src="/assets/design/logo-light.png" alt="ByteSpace" />
+      <img className="logo-dark" src="/assets/design/logo-dark.png" alt="" />
     </a>
-  );
-}
-
-function Avatars({ count = 4, label, size = "sm" }) {
-  return (
-    <div className={`avatars avatars-${size}`}>
-      {Array.from({ length: count }).map((_, i) => (
-        <span key={i} className={`av av-${(i % 7) + 1}`} />
-      ))}
-      <b>{label}</b>
-    </div>
   );
 }
 
@@ -297,83 +128,38 @@ function Header() {
 /* ---------- SECTIONS ---------- */
 
 function Hero() {
+  function searchCourses(event) {
+    event.preventDefault();
+    document.getElementById("courses").scrollIntoView({ behavior: "smooth" });
+  }
+
   return (
     <section className="hero">
       <Header />
-
-      <div className="hero-circle" />
-
-      <Spring tone="lime" w={230} h={267} stroke={58} x={-35} y={286} />
-      <Cylinder tone="lime" w={190} h={310} rotate={-25} x={1262} y={246} />
-      <Spring tone="white" w={114} h={121} stroke={28} x={216} y={507} />
-      <Ring tone="white" w={237} h={217} x={68} y={742} />
-      <Cone tone="white" w={124} h={136} rotate={8} x={1132} y={486} />
-      <Spring tone="white" w={189} h={248} stroke={52} x={1197} y={711} />
-
       <div className="hero-content">
-        <h1>
-          Get Access to Hundreds
-          <br />
-          Courses Available
-        </h1>
-
-        <p>
-          Unlock your creativity, gain valuable knowledge, and grow your
-          business with our wide range of courses.
-        </p>
-
-        <div className="hero-search">
+        <h1>Get Access to Hundreds<br />Courses Available</h1>
+        <p>Unlock your creativity, gain valuable knowledge, and grow your business with our wide range of courses.</p>
+        <form className="hero-search" onSubmit={searchCourses} role="search">
           <div className="hero-search-input">
-            <Search size={18} />
-            <input placeholder="Course, topic, creator" />
+            <Search size={18} aria-hidden="true" />
+            <input aria-label="Search courses, topics, or creators" placeholder="Course, topic, creator" />
           </div>
-
-          <button>Search</button>
-        </div>
+          <button type="submit">Search</button>
+        </form>
       </div>
-
-      <div className="hero-art">
-        <img
-          src="/assets/hero-person.png"
-          alt="Student learning with ByteSpace"
-        />
-      </div>
-
-      <div className="float-card card-topic">
-        <strong>UI/UX Design</strong>
-        <span>200 Courses &nbsp;•&nbsp; 1000+ Students</span>
-      </div>
-
-      <div className="float-card card-progress">
-        <span>Learning Progress</span>
-        <strong>55%</strong>
-        <div className="progress-bar">
-          <i />
-        </div>
-      </div>
-
-      <div className="float-card card-students">
-        <strong>Happy Students</strong>
-        <span>
-          <b>4.5</b> (240) <em>★</em>
-        </span>
-        <Avatars count={7} label="2K+" size="lg" />
-      </div>
+      <img className="hero-illustration" src="/assets/design/hero-artwork.png" alt="A student learning on a laptop, with UI/UX courses, learning progress, and happy students" fetchPriority="high" />
+      <img className="hero-decoration hero-spring" src="/assets/design/hero-spring.png" alt="" />
+      <img className="hero-decoration hero-small-spring" src="/assets/design/hero-small-spring.png" alt="" />
+      <img className="hero-decoration hero-cylinder" src="/assets/design/hero-cylinder.png" alt="" />
+      <img className="hero-decoration hero-cone" src="/assets/design/hero-cone.png" alt="" />
     </section>
   );
 }
 
 function PartnerLogos() {
   return (
-    <section className="partners">
-      {partnerIcons.map((Icon, index) => (
-        <div className="partner" key={index}>
-          <span className="partner-icon">
-            <Icon size={20} strokeWidth={2} />
-          </span>
-          <strong>Logoipsum</strong>
-        </div>
-      ))}
+    <section className="partners" aria-label="Our learning partners">
+      <img src="/assets/design/partners.png" alt="Five Logoipsum learning partners" />
     </section>
   );
 }
@@ -382,13 +168,7 @@ function CourseCard({ course }) {
   return (
     <article className="course-card">
       <div className="course-image">
-        <img src={`/assets/${course.image}`} alt={course.title} />
-
-        <div className="course-image-tags">
-          <span>17 Lessons</span>
-          <span>2 hours 16 mins</span>
-          <span>59 Comments</span>
-        </div>
+        <img src={`/assets/design/${course.image}`} alt={course.title} loading="lazy" />
       </div>
 
       <div className="course-info">
@@ -407,7 +187,7 @@ function CourseCard({ course }) {
           <span className="level">
             <BarChart3 size={13} /> Beginner
           </span>
-          <Avatars count={4} label="26+" />
+          <img className="course-students" src="/assets/design/course-students.png" alt="26+ enrolled students" loading="lazy" />
         </div>
 
         <div className="course-price">
@@ -534,13 +314,13 @@ function GrowthFeatures() {
           </div>
 
           <div className="growth-image growth-image-right">
-            <img src="/assets/growth-person.png" alt="Student learning" />
+            <img src="/assets/design/growth-artwork.png" alt="Student learning with a course preview and 55% learning progress" loading="lazy" />
           </div>
         </div>
 
         <div className="growth-row growth-row-second">
           <div className="growth-image">
-            <img src="/assets/creator-person.png" alt="ByteSpace creator" />
+            <img src="/assets/design/creator-artwork.png" alt="ByteSpace creator with revenue and happy student statistics" loading="lazy" />
           </div>
 
           <div className="growth-copy creator-copy">
@@ -579,13 +359,10 @@ function GrowthFeatures() {
 function CreatorCTA() {
   return (
     <section className="creator-cta">
-      <Spring tone="lime" w={200} h={170} stroke={46} x={-30} y={3} />
-      <Spring tone="white" w={114} h={121} stroke={28} x={211} y={35} />
-      <Cone tone="lime" w={124} h={137} rotate={8} x={1106} y={22} />
-      <Cylinder tone="white" w={190} h={300} rotate={-22} x={1262} y={41} />
-      <Cone tone="white" w={120} h={152} rotate={-12} x={-8} y={242} />
-      <Ring tone="lime" w={237} h={217} rotate={-15} x={70} y={359} />
-      <Spring tone="lime" w={189} h={190} stroke={46} x={1180} y={328} />
+      <img className="cta-decoration cta-left-top" src="/assets/design/cta-left-top.png" alt="" loading="lazy" />
+      <img className="cta-decoration cta-right-top" src="/assets/design/cta-right-top.png" alt="" loading="lazy" />
+      <img className="cta-decoration cta-left-bottom" src="/assets/design/cta-left-bottom.png" alt="" loading="lazy" />
+      <img className="cta-decoration cta-right-bottom" src="/assets/design/cta-right-bottom.png" alt="" loading="lazy" />
 
       <div className="cta-content">
         <h2>
@@ -602,7 +379,7 @@ function CreatorCTA() {
           course on the ByteSpace Course Library.
         </p>
 
-        <button>Join as Creator</button>
+        <a className="cta-button" href="/register.html">Join as Creator</a>
       </div>
     </section>
   );
@@ -630,9 +407,7 @@ function Community() {
       <div className="testimonial-grid">
         {testimonials.map((testimonial, index) => (
           <article key={testimonial.name}>
-            <div className={`testimonial-avatar avatar-${index + 1}`}>
-              {testimonial.name.charAt(0)}
-            </div>
+            <img className="testimonial-avatar" src={`/assets/design/${["sarah", "james", "alex"][index]}.png`} alt={testimonial.name} loading="lazy" />
 
             <h3>{testimonial.name}</h3>
             <span>{testimonial.role}</span>
@@ -658,7 +433,7 @@ function Footer() {
           </p>
 
           <div className="footer-newsletter">
-            <input placeholder="Enter your email" />
+            <input type="email" aria-label="Email address for newsletter" placeholder="Enter your email" />
             <button>Search</button>
           </div>
 
